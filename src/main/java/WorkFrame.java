@@ -28,11 +28,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatInspector;
 
 public class WorkFrame extends JFrame {
-    /* ==============================
-     * 1) 常量（配色/路径/键名/正则）
-     * ============================== */
 
-    // —— 徽章配色（柔和绿 / 柔和红）——
     private static final Color GOOD_FILL = new Color(0xE8F5E9);
     private static final Color GOOD_LINE = new Color(0xC8E6C9);
     private static final Color GOOD_FG = new Color(0x1B5E20);
@@ -63,10 +59,6 @@ public class WorkFrame extends JFrame {
             "^((25[0-5]|2[0-4]\\d|[0-1]?\\d{1,2})\\.){3}(25[0-5]|2[0-4]\\d|[0-1]?\\d{1,2})$");
     private static final Pattern IPV6_PATTERN = Pattern.compile("^[0-9a-fA-F:]+$");
 
-    /* ==============================
-     * 2) 全局状态（与数据缓存）
-     * ============================== */
-
     // ======= History =======
     private JTable historyTable;
     private DefaultTableModel historyModel;
@@ -81,10 +73,6 @@ public class WorkFrame extends JFrame {
     private Analyzer.QAXResponseData qaxResp;
     private Analyzer.VirusTotalResponse vtResp;
     private Analyzer.ThreatBookResponse tbResp;
-
-    /* ==============================
-     * 3) UI 组件（按页面分组）
-     * ============================== */
 
     // Tabs
     private JTabbedPane tabbedPane;
@@ -173,9 +161,6 @@ public class WorkFrame extends JFrame {
     private JLabel dIspDomain, dOwner2, dRegion, dCreateTime, dUpdateTime;
     private JLabel dFirstDetectTime, dLastUpdateTime;
 
-    /* ==============================
-     * 4) 构造函数：只“导演”
-     * ============================== */
     public WorkFrame() {
         setTitle("VirusCheckTool V0.2");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -189,10 +174,6 @@ public class WorkFrame extends JFrame {
         initializeBindings();      // 事件绑定
         initializeStartupState();  // 启动加载配置与历史
     }
-
-    /* ==============================
-     * 5) 初始化阶段（分步骤，不改功能）
-     * ============================== */
 
     private void initializeLookAndFeel() {
         Image icon = safeLoadAppIcon();
@@ -282,8 +263,8 @@ public class WorkFrame extends JFrame {
 
             clearQaxIpAnalysisBlock();
             clearQaxDomainAnalysisBlock();
-            switchToAnalysisTab();                 // 跳到 Analysis 标签
-            runDeepAnalysis(raw);                  // 异步请求并更新输出
+            switchToAnalysisTab();                
+            runDeepAnalysis(raw); 
         });
 
 
@@ -431,7 +412,7 @@ public class WorkFrame extends JFrame {
         toolbar.add(Box.createHorizontalStrut(8));
         toolbar.add(startSearchBtn);
         toolbar.add(Box.createHorizontalStrut(8));
-        toolbar.add(deepAnalysisBtn); // ← 新增：放在中间
+        toolbar.add(deepAnalysisBtn);
         toolbar.add(Box.createHorizontalStrut(8));
         toolbar.add(clearBtn);
 
@@ -483,7 +464,6 @@ public class WorkFrame extends JFrame {
         return card;
     }
 
-    // 初始化并装饰三张表（供 Search Board 复用）
     private void initTablesForIndex() {
         // QAX table
         String[] cols = {"risk", "alert_name", "ioc_category"};
@@ -800,7 +780,6 @@ public class WorkFrame extends JFrame {
     }
 
     /** Analysis 面板 */
-    /** Analysis 面板（合并：QAX_Analysis = IP 分组 + Domain 分组） */
     private JPanel buildAnalysisTab() {
         analysisPanel = new JPanel(new BorderLayout());
         analysisPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
@@ -972,7 +951,6 @@ public class WorkFrame extends JFrame {
     }
 
 
-    /** 分组容器：顶部组标题，下方是流式卡片区（自动换行），整体放在圆角 Panel 里 */
     private JPanel createSection(String sectionTitle, java.util.List<JPanel> cards) {
         RoundedPanel section = new RoundedPanel(10);
         section.setLayout(new BorderLayout(4, 4));
@@ -985,7 +963,6 @@ public class WorkFrame extends JFrame {
         JPanel flow = new JPanel(new AutoWrapLayout(6, 4)); // 横 6、竖 4，很紧凑
         flow.setOpaque(false);
         for (JPanel c : cards) {
-            // 关键：卡片按“首选尺寸”摆放，不设很大的 maxSize，避免被拉高
             c.setMaximumSize(c.getPreferredSize());
             flow.add(c);
         }
@@ -2756,3 +2733,4 @@ public class WorkFrame extends JFrame {
         }
     }
 }
+
